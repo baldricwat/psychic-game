@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Psychic Game</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <style>
+
+        .jumbotron{
+            background-color:grey;    
+            
+        }
+        .display-4{
+            text-align:center;
+            background-color:lightgrey;
+            padding: 20px 0px 20px 0px;
+            font-style:unset;
+            z-index: 1;
+
+
+        }
+        
+        .list-group{
+            font: arial;
+            font-size:30px;
+          
+        }
+
+        .list-group-item{
+            background-color:lightgrey;
+            border: 4px;
+            border-style:dotted;
+            margin: 10px 40px 40px 10px;
+
+        
+
+        }
+        </style>
+    </head> 
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="jumbotron jumbotron-fluid">
+                <div class="container" classs="heading">
+                        <h1 class="display-4">The Psychic Game</h1>
+                      </div>
+        <ul class="list-group list-group-flush">
+            <p>Guess what letter I am thinking of:</p>
+            <li class="list-group-item">Wins: <span id="wins"></span></li>
+            <li class="list-group-item">Losses: <span id="losses"></span></li>
+            <li class="list-group-item">Guesses left: <span id= "guessesleft"></span></li>
+            <li class="list-group-item">your guesses so far: <span id="guessed">    </span></li>
+            </ul>
+                        
+
+
+        <script>
+
+        //generate a random character in the beginning
+        function genCharArray(charA, charZ) {
+            var a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+            for (; i <= j; ++i) {
+                a.push(String.fromCharCode(i));
+            }
+            return a;   
+        }
+        
+        var isFinished = false;
+        //set variables
+        var wins="";
+        var losses="";
+        var guessesleft=10;
+        var guessed =[];
+
+        var randomletter = genCharArray("a","z")[Math.floor(Math.random() * genCharArray("a","z").length)];
+        //empty variable once game is over 
+        function resetgame(){
+            guessesleft =10;
+            guess="";
+            guessed=[];
+        }
+        // create conkeyup event
+        document.onkeyup = function(event) {
+            if(event.keyCode >= 65 && event.keyCode <= 90) {
+       
+            var userguess= event.key.toLowerCase();
+            //show wrong guesses that would not be repeated 
+            if (guessed.indexOf(userguess)<=-1){
+            //add wrong guesses to the guessed array
+            guessed.push(userguess);
+            //display wrong guesses
+            document.getElementById("guessed").innerHTML = guessed.join(' ');
+            //subtract the chances left
+            guessesleft--;
+            //show the updated number of chances
+            document.getElementById("guessesleft").innerHTML = guessesleft;
+            }
+        }
+            //tallying number of wins
+            if (randomletter === userguess){
+                wins++;
+                document.getElementById("wins").innerHTML = wins;
+                resetgame();
+            }   
+
+            //tallying number of losses     
+
+            else if (guessesleft==0){
+                losses++;
+                document.getElementById("losses").innerHTML = losses;
+                resetgame();
+                
+            }
+            
+        }
+
+        
+        
+        </script>
+    </body>
+</html>
